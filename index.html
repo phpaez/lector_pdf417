@@ -230,7 +230,7 @@
 </html> -->
 
 
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 
 <head>
@@ -350,5 +350,47 @@
 
 </body>
 
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Lector de PDF417</title>
+</head>
+<body>
+  <h1>Lector de código PDF417</h1>
+  <video id="camera" autoplay="true"></video>
+  <script src="https://cdn.rawgit.com/serratus/quaggaJS/0.12.1/dist/quagga.min.js"></script>
+  <script>
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function (stream) {
+          var video = document.getElementById('camera');
+          video.srcObject = stream;
+
+          Quagga.init({
+            inputStream: {
+              name: "Live",
+              type: "LiveStream",
+              target: video
+            },
+            decoder: {
+              readers: ["pdf417_reader"]
+            }
+          });
+          Quagga.start();
+        })
+        .catch(function (error) {
+          console.error('Error accessing the camera: ' + error);
+        });
+    }
+
+    Quagga.onDetected(function (result) {
+      console.log("Código PDF417 detectado: " + result.codeResult.code);
+    });
+  </script>
+</body>
 </html>
 
+Este código HTML y JavaScript configura una página que utiliza la cámara del dispositivo para detectar códigos PDF417. Asegúrate de que tu navegador sea compatible con la API MediaDevices y que esté configurado para permitir el acceso a la cámara. Además, ten en cuenta que este ejemplo utiliza una URL externa para cargar la biblioteca QuaggaJS, por lo que necesitas una conexión a Internet para que funcione.
