@@ -65,30 +65,48 @@
 
  <video id="camera-preview" autoplay="true"></video>
  <div id="result"></div>
- <script>
-  const videoElement = document.getElementById("camera-preview");
-  const resultElement = document.getElementById("result");
-
-  async function startCamera() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoElement.srcObject = stream;
-      const codeReader = new ZXing.BrowserMultiFormatReader();
-      codeReader.listFormats = [ZXing.BarcodeFormat.PDF_417];
-
-      codeReader.decodeFromVideoDevice(undefined, videoElement, (result, err) => {
-        if (result) {
-          resultElement.innerText = result.text;
-        }
-        if (err) {
-          console.error(err);
-        }
-      });
-    } catch (err) {
-      console.error("Error al acceder a la cámara: " + err);
-    }
-  }
-
-  startCamera();
-</script>
  
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+  <title>Lector de PDF417 (Cámara Trasera)</title>
+  <script src="https://unpkg.com/@zxing/library@0.17.0/dist/browser/zxing.min.js"></script>
+</head>
+<body>
+  <h1>Lector de PDF417 (Cámara Trasera)</h1>
+  <video id="camera-preview" autoplay="true"></video>
+  <div id="result"></div>
+  <script>
+    const videoElement = document.getElementById("camera-preview");
+    const resultElement = document.getElementById("result");
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            facingMode: { exact: "environment" } // Seleccionar la cámara trasera
+          }
+        });
+
+        videoElement.srcObject = stream;
+        const codeReader = new ZXing.BrowserMultiFormatReader();
+        codeReader.listFormats = [ZXing.BarcodeFormat.PDF_417];
+
+        codeReader.decodeFromVideoDevice(undefined, videoElement, (result, err) => {
+          if (result) {
+            resultElement.innerText = result.text;
+          }
+          if (err) {
+            console.error(err);
+          }
+        });
+      } catch (err) {
+        console.error("Error al acceder a la cámara: " + err);
+      }
+    }
+
+    startCamera();
+  </script>
+</body>
+</html>
