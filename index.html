@@ -95,13 +95,16 @@
 
         codeReader.decodeFromVideoDevice(undefined, videoElement, (result, err) => {
           if (result) {
+            alert(result);
             resultElement.innerText = result.text;
           }
           if (err) {
+            alert(err);
             console.error(err);
           }
         });
       } catch (err) {
+        alert("Error al acceder a la cámara: " + err);
         console.error("Error al acceder a la cámara: " + err);
       }
     }
