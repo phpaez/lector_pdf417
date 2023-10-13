@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Lector de PDF417 (Cámara Trasera)</title>
-  <script src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+  <script src="https://unpkg.com/@zxing/browser@latest"></script>
 </head>
 <body>
   <h1>Lector de PDF417 (Cámara Trasera)</h1>
@@ -19,17 +19,17 @@
         // const stream = await navigator.mediaDevices.getUserMedia({ video: true });
  
         // camara trasera
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: { exact: "environment" } // Seleccionar la cámara trasera
-          }
-        });
-
-        // const stream = await navigator.mediaDevices.getUserMedia({ 
-        //   video: { 
+        // const stream = await navigator.mediaDevices.getUserMedia({
+        //   video: {
         //     facingMode: { exact: "environment" } // Seleccionar la cámara trasera
         //   }
         // });
+
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            facingMode: { exact: "environment" } // Seleccionar la cámara trasera
+          }
+        });
 
         videoElement.srcObject = stream;
         const codeReader = new ZXing.BrowserQRCodeReader();
