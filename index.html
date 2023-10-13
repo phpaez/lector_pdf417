@@ -37,6 +37,7 @@
         },
         function (err) {
           if (err) {
+            alert("Error al inicializar Quagga: " + err);
             console.error("Error al inicializar Quagga: " + err);
             return;
           }
@@ -48,7 +49,7 @@
 
     function handleResult(result) {
       alert("Código detectado:", result);
-      // console.log("Código detectado:", result);
+      console.log("Código detectado:", result);
       // Aquí puedes agregar tu lógica para manejar el resultado del código PDF417
     }
 
