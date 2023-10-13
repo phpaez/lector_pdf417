@@ -19,17 +19,17 @@
         // const stream = await navigator.mediaDevices.getUserMedia({ video: true });
  
         // camara trasera
-        // const stream = await navigator.mediaDevices.getUserMedia({
-        //   video: {
-        //     facingMode: { exact: "environment" } // Seleccionar la cámara trasera
-        //   }
-        // });
-
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
             facingMode: { exact: "environment" } // Seleccionar la cámara trasera
           }
         });
+
+        // const stream = await navigator.mediaDevices.getUserMedia({ 
+        //   video: { 
+        //     facingMode: { exact: "environment" } // Seleccionar la cámara trasera
+        //   }
+        // });
 
         videoElement.srcObject = stream;
         const codeReader = new ZXing.BrowserQRCodeReader();
