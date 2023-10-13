@@ -382,6 +382,7 @@
           Quagga.start();
         })
         .catch(function (error) {
+          alert('Error accessing the camera: ' + error);
           console.error('Error accessing the camera: ' + error);
         });
     }
