@@ -65,51 +65,75 @@ https://github.com/zxing/zxing -->
 </html>
  -->
 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
   <title>Lector de PDF417 (Cámara Trasera)</title>
   <!-- loading ZXingBrowser via UNPKG -->
   <script type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>
   <!-- <script src="https://unpkg.com/@zxing/library@0.17.0/dist/browser/zxing.min.js"></script> -->
 </head>
+
 <body>
   <h1>Lector de PDF417 (Cámara Trasera)</h1>
   <video id="camera-preview" autoplay="true"></video>
   <div id="result"></div>
   <script>
-    const videoElement = document.getElementById("camera-preview");
-    const resultElement = document.getElementById("result");
 
-    async function startCamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            facingMode: { exact: "environment" } // Seleccionar la cámara trasera
-          }
-        });
+    const codeReader = new BrowserQRCodeReader();
 
-        videoElement.srcObject = stream;
-        const codeReader = new ZXing.BrowserMultiFormatReader();
-        codeReader.listFormats = [ZXing.BarcodeFormat.PDF_417];
+    const videoInputDevices = await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
 
-        codeReader.decodeFromVideoDevice(undefined, videoElement, (result, err) => {
-          if (result) {
-            alert(result);
-            resultElement.innerText = result.text;
-          }
-          if (err) {
-            alert(err);
-            console.error(err);
-          }
-        });
-      } catch (err) {
-        alert("Error al acceder a la cámara: " + err);
-        console.error("Error al acceder a la cámara: " + err);
-      }
-    }
+    // choose your media device (webcam, frontal camera, back camera, etc.)
+    const selectedDeviceId = videoInputDevices[0].deviceId;
 
-    startCamera();
+    console.log(`Started decode from camera with id ${selectedDeviceId}`);
+
+    const previewElem = document.querySelector('#test-area-qr-code-webcam > video');
+
+    // you can use the controls to stop() the scan or switchTorch() if available
+    const controls = await codeReader.decodeFromVideoDevice(selectedDeviceId, previewElem, (result, error, controls) => {
+      // use the result and error values to choose your actions
+      // you can also use controls API in this scope like the controls
+      // returned from the method.
+    });
+
+    // // stops scanning after 20 seconds
+    // setTimeout(() => controls.stop(), 20000);
+    //     const videoElement = document.getElementById("camera-preview");
+    //     const resultElement = document.getElementById("result");
+
+    //     async function startCamera() {
+    //       try {
+    //         const stream = await navigator.mediaDevices.getUserMedia({ 
+    //           video: { 
+    //             facingMode: { exact: "environment" } // Seleccionar la cámara trasera
+    //           }
+    //         });
+
+    //         videoElement.srcObject = stream;
+    //         const codeReader = new ZXing.BrowserMultiFormatReader();
+    //         codeReader.listFormats = [ZXing.BarcodeFormat.PDF_417];
+
+    //         codeReader.decodeFromVideoDevice(undefined, videoElement, (result, err) => {
+    //           if (result) {
+    //             alert(result);
+    //             resultElement.innerText = result.text;
+    //           }
+    //           if (err) {
+    //             alert(err);
+    //             console.error(err);
+    //           }
+    //         });
+    //       } catch (err) {
+    //         alert("Error al acceder a la cámara: " + err);
+    //         console.error("Error al acceder a la cámara: " + err);
+    //       }
+    //     }
+
+    //     startCamera();
   </script>
 </body>
+
 </html>
