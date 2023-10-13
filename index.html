@@ -387,10 +387,10 @@
     }
 
     Quagga.onDetected(function (result) {
+      alert("Código PDF417 detectado: " + result.codeResult.code);
       console.log("Código PDF417 detectado: " + result.codeResult.code);
     });
   </script>
 </body>
 </html>
 
-Este código HTML y JavaScript configura una página que utiliza la cámara del dispositivo para detectar códigos PDF417. Asegúrate de que tu navegador sea compatible con la API MediaDevices y que esté configurado para permitir el acceso a la cámara. Además, ten en cuenta que este ejemplo utiliza una URL externa para cargar la biblioteca QuaggaJS, por lo que necesitas una conexión a Internet para que funcione.
