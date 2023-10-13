@@ -1,0 +1,66 @@
+<!-- info
+https://serratus.github.io/quaggaJS/#installing
+https://github.com/zxing/zxing -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lector de PDF417 (Cámara Trasera)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+</head>
+<body>
+  <h1>Lector de PDF417 (Cámara Trasera)</h1>
+  <video id="camera-preview" autoplay="true"></video>
+  <script>
+    const videoElement = document.getElementById("camera-preview");
+
+    function initCamera() {
+      navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: "environment" } }) // Seleccionar la cámara trasera
+        .then(function (stream) {
+          videoElement.srcObject = stream;
+          videoElement.play();
+          initQuagga();
+        })
+        .catch(function (error) {
+          console.error("Error al acceder a la cámara: " + error);
+        });
+    }
+
+    function initQuagga() {
+      Quagga.init(
+        {
+          inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: videoElement,
+          },
+          decoder: {
+            readers : ["code_128_reader"]
+            // readers: ["pdf417_reader"],
+          },
+        },
+        function (err) {
+          if (err) {
+            alert("Error al inicializar Quagga: " + err);
+            console.error("Error al inicializar Quagga: " + err);
+            return;
+          }
+          Quagga.start();
+        }
+      );
+      Quagga.onDetected(handleResult);
+    }
+
+    function handleResult(result) {
+      alert("Código detectado:", result);
+      console.log("Código detectado:", result);
+      // Aquí puedes agregar tu lógica para manejar el resultado del código PDF417
+    }
+
+    initCamera();
+  </script>
+</body>
+</html>
+ 
