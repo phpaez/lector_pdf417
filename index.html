@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lector de PDF417</title>
+  <title>Lector de PDF417 (Cámara Trasera)</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </head>
 <body>
-  <h1>Lector de PDF417</h1>
+  <h1>Lector de PDF417 (Cámara Trasera)</h1>
   <video id="camera-preview" autoplay="true"></video>
   <script>
     const videoElement = document.getElementById("camera-preview");
 
     function initCamera() {
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ video: { facingMode: "environment" } }) // Seleccionar la cámara trasera
         .then(function (stream) {
           videoElement.srcObject = stream;
           videoElement.play();
@@ -55,3 +55,4 @@
   </script>
 </body>
 </html>
+
