@@ -400,18 +400,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Escáner de códigos PDF417</title>
+    <title>Escáner de códigos PDF417 (Cámara Trasera)</title>
 </head>
 <body>
-    <h1>Escáner de códigos PDF417</h1>
+    <h1>Escáner de códigos PDF417 (Cámara Trasera)</h1>
     <video id="camera" autoplay="true"></video>
     <script src="https://cdn.jsdelivr.net/gh/LazarSoft/jsqrcode@master/src/qr_packed.js"></script>
     <script>
         const video = document.getElementById('camera');
 
-        // Acceder a la cámara del dispositivo
+        // Acceder a la cámara trasera del dispositivo
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                 .then(function (stream) {
                     video.srcObject = stream;
 
@@ -428,11 +428,9 @@
 
                         if (code) {
                             // Se encontró un código
-                            alert('Código PDF417 detectado:', code.data);
                             console.log('Código PDF417 detectado:', code.data);
                         } else {
                             // No se encontró ningún código
-                            alert(console.log('No se encontraron códigos.'));
                             console.log('No se encontraron códigos.');
                         }
                     };
@@ -447,5 +445,3 @@
     </script>
 </body>
 </html>
-
-
