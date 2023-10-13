@@ -352,7 +352,7 @@
 
 </html> -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -393,5 +393,59 @@
     });
   </script>
 </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Escáner de códigos PDF417</title>
+</head>
+<body>
+    <h1>Escáner de códigos PDF417</h1>
+    <video id="camera" autoplay="true"></video>
+    <script src="https://cdn.jsdelivr.net/gh/LazarSoft/jsqrcode@master/src/qr_packed.js"></script>
+    <script>
+        const video = document.getElementById('camera');
+
+        // Acceder a la cámara del dispositivo
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+
+                    // Función para escanear el código
+                    const scanCode = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        const context = canvas.getContext('2d');
+                        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        // Escanear el código desde el lienzo
+                        const code = jsQR(context.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height);
+
+                        if (code) {
+                            // Se encontró un código
+                            alert('Código PDF417 detectado:', code.data);
+                            console.log('Código PDF417 detectado:', code.data);
+                        } else {
+                            // No se encontró ningún código
+                            alert(console.log('No se encontraron códigos.'));
+                            console.log('No se encontraron códigos.');
+                        }
+                    };
+
+                    // Realizar el escaneo cada cierto intervalo de tiempo
+                    setInterval(scanCode, 1000);
+                })
+                .catch(function (error) {
+                    console.error('Error accediendo a la cámara:', error);
+                });
+        }
+    </script>
+</body>
 </html>
+
 
