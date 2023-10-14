@@ -10,32 +10,6 @@
     <script src="./dist/jquery-2.1.4.min.js"></script>
     <script>
 
-        const player = document.getElementById('player');
-        const canvas = document.getElementById('canvas');
-        const context = canvas.getContext('2d');
-        const captureButton = document.getElementById('capture');
-
-        const constraints = {
-            audio: false,
-            video:
-            {
-                facingMode: { exact: "environment" }
-            }
-        }
-
-        captureButton.addEventListener('click', () => {
-            // Dibujamos el cuadro de video en el lienzo.
-            context.drawImage(player, 0, 0, canvas.width, canvas.height);
-            // Detenemos el video (opcional, para liberar recursos).
-            player.pause();
-            player.srcObject = null;
-        });
-
-        // Attach the video stream to the video element and autoplay.
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-                player.srcObject = stream;
-            });
 
 
         (function (window, $, undefined) {
@@ -83,6 +57,36 @@
                 $('#file').change(handleFiles);
             });
         })(window, window.jQuery);
+
+
+
+        const player = document.getElementById('player');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const captureButton = document.getElementById('capture');
+
+        const constraints = {
+            audio: false,
+            video:
+            {
+                facingMode: { exact: "environment" }
+            }
+        }
+
+        captureButton.addEventListener('click', () => {
+            // Dibujamos el cuadro de video en el lienzo.
+            context.drawImage(player, 0, 0, canvas.width, canvas.height);
+            // Detenemos el video (opcional, para liberar recursos).
+            player.pause();
+            player.srcObject = null;
+        });
+
+        // Attach the video stream to the video element and autoplay.
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                player.srcObject = stream;
+            });
+
     </script>
     <style>
         .decodedText {
