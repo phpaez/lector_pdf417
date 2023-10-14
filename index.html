@@ -37,9 +37,15 @@
   }
 
   captureButton.addEventListener('click', () => {
-    // Draw the video frame to the canvas.
+    // Detenemos la transmisión de la cámara.
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+      stream = null;
+    }
+
+    // Dibujamos el cuadro de video en el lienzo.
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    vidOff();
   });
 
   // Attach the video stream to the video element and autoplay.
@@ -47,14 +53,5 @@
     .then((stream) => {
       player.srcObject = stream;
     });
-
-  function vidOff() {
-    //clearInterval(theDrawLoop);
-    //ExtensionData.vidStatus = 'off';
-    vid.pause();
-    vid.src = "";
-    localstream.getTracks()[0].stop();
-    console.log("Vid off");
-  }
 
 </script>
