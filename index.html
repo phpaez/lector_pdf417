@@ -17,19 +17,6 @@
   <br>
   <br>
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br><br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 
   <button id="capture">Capture</button>
 
@@ -50,21 +37,12 @@
   }
 
   captureButton.addEventListener('click', () => {
-    // Detenemos la transmisión de la cámara.
-    if (stream) {
-      const tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());
-      stream = null;
-    }
-
     // Dibujamos el cuadro de video en el lienzo.
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
-
     // Detenemos el video (opcional, para liberar recursos).
     player.pause();
     player.srcObject = null;
   });
-
 
   // Attach the video stream to the video element and autoplay.
   navigator.mediaDevices.getUserMedia(constraints)
