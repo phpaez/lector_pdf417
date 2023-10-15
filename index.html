@@ -44,7 +44,7 @@
     <div>
         <pre class="decodedText"></pre>
     </div>
-    <img src="./reverse_side_sample.jpg" />
+    <!-- <img src="./reverse_side_sample.jpg" /> -->
   
   </html>
   </body>
@@ -65,6 +65,7 @@
     captureButton.addEventListener('click', () => {
       // Dibujamos el cuadro de video en el lienzo.
       context.drawImage(player, 0, 0, canvas.width, canvas.height);
+      doScan(player);
       // Detenemos el video (opcional, para liberar recursos).
       player.pause();
       player.srcObject = null;
@@ -74,7 +75,6 @@
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         player.srcObject = stream;
-        doScan(stream);
       });
 
 
@@ -120,7 +120,7 @@
             //     doScan($('img')[0]);
             // });
 
-            $('#file').change(handleFiles);
+            // $('#file').change(handleFiles);
         });
     })(window, window.jQuery);
   
