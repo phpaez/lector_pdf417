@@ -40,7 +40,7 @@
             <br>
             <br>
             <br>
-            <button id="capture">Capture</button>
+            <button id="capture" onclick="tomarFoto()">Capture</button>
             <br>
             <br>
             <br>
@@ -126,13 +126,15 @@
         }
     }
 
-    captureButton.addEventListener('click', () => {
+    function tomarFoto() {
+        //  captureButton.addEventListener('click', () => {
         // Dibujamos el cuadro de video en el lienzo.
         context.drawImage(player, 0, 0, canvas.width, canvas.height);
         // Detenemos el video (opcional, para liberar recursos).
         player.pause();
         player.srcObject = null;
-    });
+        //   });
+    }
 
     // Attach the video stream to the video element and autoplay.
     navigator.mediaDevices.getUserMedia(constraints)
