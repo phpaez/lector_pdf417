@@ -23,15 +23,62 @@
 </head>
 
 
-
-
-
 <body>
+    <video id="player" autoplay></video>
+    <!-- <button id="capture">Capture</button> -->
+    <canvas id="canvas" width=320 height=240></canvas>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  
+    <button id="capture">Capture</button>
+  
+  </html>
+  </body>
+  <script>
+    const player = document.getElementById('player');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const captureButton = document.getElementById('capture');
+  
+    const constraints = {
+      audio: false,
+      video:
+      {
+        facingMode: { exact: "environment" }
+      }
+    }
+  
+    captureButton.addEventListener('click', () => {
+      // Dibujamos el cuadro de video en el lienzo.
+      context.drawImage(player, 0, 0, canvas.width, canvas.height);
+      // Detenemos el video (opcional, para liberar recursos).
+      player.pause();
+      player.srcObject = null;
+    });
+  
+    // Attach the video stream to the video element and autoplay.
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then((stream) => {
+        player.srcObject = stream;
+      });
+  
+  </script>
+
+
+
+
+
+<!-- <body>
     <div>
         <form>
 
             <video id="player" autoplay></video>
-            <!-- <button id="capture">Capture</button> -->
+            <button id="capture">Capture</button>
             <canvas id="canvas" width=320 height=240></canvas>
             <br>
             <br>
@@ -49,18 +96,18 @@
             <br>
             <br>
 
-            <!-- <input type="file" id="file" />
+            <input type="file" id="file" />
             <button type="button">Decode</button>
             <div class="error"></div>
             <div>
                 <pre class="decodedText"></pre>
             </div>
-            <img src="./reverse_side_sample.jpg" /> -->
+            <img src="./reverse_side_sample.jpg" />
         </form>
     </div>
 </body>
 
-</html>
+</html> -->
 
 
 <script>
@@ -113,31 +160,31 @@
 
 
 
-    const player = document.getElementById('player');
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    const captureButton = document.getElementById('capture');
+    // const player = document.getElementById('player');
+    // const canvas = document.getElementById('canvas');
+    // const context = canvas.getContext('2d');
+    // const captureButton = document.getElementById('capture');
 
-    const constraints = {
-        audio: false,
-        video:
-        {
-            facingMode: { exact: "environment" }
-        }
-    }
+    // const constraints = {
+    //     audio: false,
+    //     video:
+    //     {
+    //         facingMode: { exact: "environment" }
+    //     }
+    // }
 
-    captureButton.addEventListener('click', () => {
-        // Dibujamos el cuadro de video en el lienzo.
-        context.drawImage(player, 0, 0, canvas.width, canvas.height);
-        // Detenemos el video (opcional, para liberar recursos).
-        player.pause();
-        player.srcObject = null;
-    });
+    // captureButton.addEventListener('click', () => {
+    //     // Dibujamos el cuadro de video en el lienzo.
+    //     context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    //     // Detenemos el video (opcional, para liberar recursos).
+    //     player.pause();
+    //     player.srcObject = null;
+    // });
 
-    // Attach the video stream to the video element and autoplay.
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-            player.srcObject = stream;
-        });
+    // // Attach the video stream to the video element and autoplay.
+    // navigator.mediaDevices.getUserMedia(constraints)
+    //     .then((stream) => {
+    //         player.srcObject = stream;
+    //     });
 
 </script>
