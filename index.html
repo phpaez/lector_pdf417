@@ -77,15 +77,15 @@
         context.drawImage(player, 0, 0, canvas.width, canvas.height);
 
         // Convertimos el lienzo a una imagen en formato JPG.
-        canvas.toDataURL('image/jpeg', 0.9) // '0.9' es la calidad de compresión.
-            .then((img) => {
-                //doScan(img);
-                 //Crea un enlace para descargar la imagen en formato JPG.
-                const a = document.createElement('a');
-                a.href = imageDataURL;
-                a.download = 'captured_image.jpg';
-                a.click();
-            });
+        const imageDataURL = canvas.toDataURL('image/jpeg', 0.9); // '0.9' es la calidad de compresión.
+
+        //doScan(img);
+        //Crea un enlace para descargar la imagen en formato JPG.
+        const a = document.createElement('a');
+        a.href = imageDataURL;
+        a.download = 'captured_image.jpg';
+        a.click();
+
 
 
 
