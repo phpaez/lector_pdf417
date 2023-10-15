@@ -80,7 +80,7 @@
         // Convertimos el lienzo a una imagen en formato JPG.
         const imageDataURL = canvas.toDataURL('image/jpeg', 0.9); // '0.9' es la calidad de compresión.
 
-        doScan(imageDataURL);
+        hola();
 
         // Crea un enlace para descargar la imagen en formato JPG.
         const a = document.createElement('a');
@@ -102,6 +102,11 @@
             function handleFiles(f) {
                 var img = $('img');
                 img[0].src = URL.createObjectURL(f.target.files[0]);
+            }
+
+            function hola(){
+
+                alert("hola");
             }
 
             function doScan(image) {
