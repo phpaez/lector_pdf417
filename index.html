@@ -34,7 +34,7 @@
     <br>
     <br>
     <br>
-  
+
     <button id="capture">Capture</button>
 
 
@@ -45,40 +45,56 @@
         <pre class="decodedText"></pre>
     </div>
     <!-- <img src="./reverse_side_sample.jpg" /> -->
-  
-  </html>
-  </body>
-  <script>
+
+</html>
+</body>
+<script>
     const player = document.getElementById('player');
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
     const captureButton = document.getElementById('capture');
-  
+    let stream; // Almacenamos la referencia a la transmisión de la cámara.
+
+
     const constraints = {
-      audio: false,
-      video:
-      {
-        facingMode: { exact: "environment" }
-      }
+        audio: false,
+        video:
+        {
+            facingMode: { exact: "environment" }
+        }
     }
-  
+
     captureButton.addEventListener('click', () => {
-      // Dibujamos el cuadro de video en el lienzo.
-      context.drawImage(player, 0, 0, canvas.width, canvas.height);
-      doScan(player);
-      // Detenemos el video (opcional, para liberar recursos).
-      player.pause();
-      player.srcObject = null;
+
+
+
+        // Detenemos la transmisión de la cámara.
+        if (stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            stream = null;
+        }
+        // Dibujamos el cuadro de video en el lienzo.
+        context.drawImage(player, 0, 0, canvas.width, canvas.height);
+
+        // Convertimos el lienzo a una imagen en formato JPG.
+        const imageDataURL = canvas.toDataURL('image/jpeg', 0.9); // '0.9' es la calidad de compresión.
+
+        // Crea un enlace para descargar la imagen en formato JPG.
+        const a = document.createElement('a');
+        a.href = imageDataURL;
+        a.download = 'captured_image.jpg';
+        a.click();
     });
-  
-    // Attach the video stream to the video element and autoplay.
+
+    // Adjuntamos la transmisión de video al elemento de video y reproducimos.
     navigator.mediaDevices.getUserMedia(constraints)
-      .then((stream) => {
-        player.srcObject = stream;
-      });
+        .then((videoStream) => {
+            stream = videoStream; // Almacenamos la referencia a la transmisión.
+            player.srcObject = videoStream;
+        });
 
-
-       (function (window, $, undefined) {
+    (function (window, $, undefined) {
         $(function () {
 
             function handleFiles(f) {
@@ -123,5 +139,5 @@
             // $('#file').change(handleFiles);
         });
     })(window, window.jQuery);
-  
-  </script>
+
+</script>
