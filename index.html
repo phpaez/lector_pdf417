@@ -49,110 +49,111 @@
 </html>
 </body>
 <script>
+    
+    const constraints = {
+        audio: false,
+        video:
+        {
+            facingMode: { exact: "environment" }
+        }
+    }
 
 
-    (function (window, $, undefined) {
-        $(function () {
+        (function (window, $, undefined) {
+            $(function () {
 
-            const player = document.getElementById('player');
-            const canvas = document.getElementById('canvas');
-            const context = canvas.getContext('2d');
-            const captureButton = document.getElementById('capture');
-            let stream; // Almacenamos la referencia a la transmisión de la cámara.
-
-
-            const constraints = {
-                audio: false,
-                video:
-                {
-                    facingMode: { exact: "environment" }
-                }
-            }
-
-            captureButton.addEventListener('click', () => {
+                const player = document.getElementById('player');
+                const canvas = document.getElementById('canvas');
+                const context = canvas.getContext('2d');
+                const captureButton = document.getElementById('capture');
+                let stream; // Almacenamos la referencia a la transmisión de la cámara.
 
 
 
-                // Detenemos la transmisión de la cámara.
-                if (stream) {
-                    const tracks = stream.getTracks();
-                    tracks.forEach(track => track.stop());
-                    stream = null;
-                }
-                // Dibujamos el cuadro de video en el lienzo.
-                context.drawImage(player, 0, 0, canvas.width, canvas.height);
+                captureButton.addEventListener('click', () => {
 
-                // Convertimos el lienzo a una imagen en formato JPG.
-                canvas.toDataURL('image/jpeg', 0.9)/ / '0.9' es la calidad de compresión.
-                    .then((img) => {
-                        doScan(image);
-                    });
 
-                
 
-                // Crea un enlace para descargar la imagen en formato JPG.
-                // const a = document.createElement('a');
-                // a.href = imageDataURL;
-                // a.download = 'captured_image.jpg';
-                // a.click();
-            });
+                    // Detenemos la transmisión de la cámara.
+                    if (stream) {
+                        const tracks = stream.getTracks();
+                        tracks.forEach(track => track.stop());
+                        stream = null;
+                    }
+                    // Dibujamos el cuadro de video en el lienzo.
+                    context.drawImage(player, 0, 0, canvas.width, canvas.height);
 
-            // Adjuntamos la transmisión de video al elemento de video y reproducimos.
-            navigator.mediaDevices.getUserMedia(constraints)
-                .then((videoStream) => {
-                    stream = videoStream; // Almacenamos la referencia a la transmisión.
-                    player.srcObject = videoStream;
+                    // Convertimos el lienzo a una imagen en formato JPG.
+                    canvas.toDataURL('image/jpeg', 0.9) / / '0.9' es la calidad de compresión.
+                        .then((img) => {
+                            doScan(image);
+                        });
+
+
+
+                    // Crea un enlace para descargar la imagen en formato JPG.
+                    // const a = document.createElement('a');
+                    // a.href = imageDataURL;
+                    // a.download = 'captured_image.jpg';
+                    // a.click();
                 });
 
-//////////////////////////////////////////////////////////////////
+                // Adjuntamos la transmisión de video al elemento de video y reproducimos.
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then((videoStream) => {
+                        stream = videoStream; // Almacenamos la referencia a la transmisión.
+                        player.srcObject = videoStream;
+                    });
+
+                //////////////////////////////////////////////////////////////////
 
 
-            function handleFiles(f) {
-                var img = $('img');
-                img[0].src = URL.createObjectURL(f.target.files[0]);
-            }
-
-            function hola() {
-
-                alert("hola");
-            }
-
-            function doScan(image) {
-                var
-                    canvas = document.createElement('canvas'),
-                    canvas_context = canvas.getContext('2d'),
-                    source,
-                    binarizer,
-                    bitmap;
-
-                $('.error').empty();
-                $('.decodedText').empty();
-
-                canvas.width = image.naturalWidth;
-                canvas.height = image.naturalHeight;
-                canvas_context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-                try {
-                    source = new ZXing.BitmapLuminanceSource(canvas_context, image);
-                    binarizer = new ZXing.Common.HybridBinarizer(source);
-                    bitmap = new ZXing.BinaryBitmap(binarizer);
-                    $('.decodedText').text(JSON.stringify(ZXing.PDF417.PDF417Reader.decode(bitmap, null, false), null, 4));
-                    alert(ZXing.PDF417.PDF417Reader.decode(bitmap, null, false), null, 4);
-                } catch (err) {
-                    $('.error').text(err);
+                function handleFiles(f) {
+                    var img = $('img');
+                    img[0].src = URL.createObjectURL(f.target.files[0]);
                 }
-            }
 
-            // $('button').click(function () {
-            //     doScan($('img')[0]);
-            // });
+                function hola() {
 
-            // $('img').load(function () {
-            //     doScan($('img')[0]);
-            // });
+                    alert("hola");
+                }
 
-            // $('#file').change(handleFiles);
-        });
-    })(window, window.jQuery);
+                function doScan(image) {
+                    var
+                        canvas = document.createElement('canvas'),
+                        canvas_context = canvas.getContext('2d'),
+                        source,
+                        binarizer,
+                        bitmap;
+
+                    $('.error').empty();
+                    $('.decodedText').empty();
+
+                    canvas.width = image.naturalWidth;
+                    canvas.height = image.naturalHeight;
+                    canvas_context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                    try {
+                        source = new ZXing.BitmapLuminanceSource(canvas_context, image);
+                        binarizer = new ZXing.Common.HybridBinarizer(source);
+                        bitmap = new ZXing.BinaryBitmap(binarizer);
+                        $('.decodedText').text(JSON.stringify(ZXing.PDF417.PDF417Reader.decode(bitmap, null, false), null, 4));
+                        alert(ZXing.PDF417.PDF417Reader.decode(bitmap, null, false), null, 4);
+                    } catch (err) {
+                        $('.error').text(err);
+                    }
+                }
+
+                // $('button').click(function () {
+                //     doScan($('img')[0]);
+                // });
+
+                // $('img').load(function () {
+                //     doScan($('img')[0]);
+                // });
+
+                // $('#file').change(handleFiles);
+            });
+        })(window, window.jQuery);
 
 </script>
